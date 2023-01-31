@@ -8,9 +8,13 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 
+@EnableJms
 @SpringBootApplication
 public class AmqpClientSslOpc4DemoApplication implements CommandLineRunner{
 
+	@Autowired
+	private JmsTemplate jmsTemplate;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(AmqpClientSslOpc4DemoApplication.class, args);
 	}
@@ -20,14 +24,17 @@ public class AmqpClientSslOpc4DemoApplication implements CommandLineRunner{
 		sendMessage("Hello World!");
 	}
 
-	public void sendMessage(String text) {
+	public void sendMessage(String text) throws InterruptedException {
 		System.out.println(String.format("Sending '%s'", text));
-		this.jmsTemplate.convertAndSend("testQueue", text);
+		for(int i=0; i<100; i++) {
+			Thread.sleep(1000);
+		this.jmsTemplate.convertAndSend("TEST", text);
+		}
 	}
 
-	@JmsListener(destination = "testQueue")
-	public void receiveMessage(String text) {
-		System.out.println(String.format("Received '%s'", text));
-	}
+//	@JmsListener(destination = "TEST")
+//	public void receiveMessage(String text) {
+//		System.out.println(String.format("Received '%s'", text));
+//	}
 
 }
