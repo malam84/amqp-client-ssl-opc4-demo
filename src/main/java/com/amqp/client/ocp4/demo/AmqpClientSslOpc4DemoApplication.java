@@ -15,7 +15,8 @@ public class AmqpClientSslOpc4DemoApplication implements CommandLineRunner{
 
 	@Autowired
 	private JmsTemplate jmsTemplate;
-	
+	int i=0;
+	String str = "hello";
 	public static void main(String[] args) {
 		SpringApplication.run(AmqpClientSslOpc4DemoApplication.class, args);
 	}
@@ -37,16 +38,19 @@ public class AmqpClientSslOpc4DemoApplication implements CommandLineRunner{
 	public void performTask() {
 		System.out.println("==========================Test" +jmsTemplate);
 		try {
+		    i++;
+		    str = str + "1";
 		    jmsTemplate.convertAndSend("TEST-HA-PROD", "hello");
+		     
 		    System.out.println("=================mesg send========");
 		}catch(JmsException e) {
 			System.out.println(e.getStackTrace());
 		}
 	}
 
-//	@JmsListener(destination = "TEST")
-//	public void receiveMessage(String text) {
-//		System.out.println(String.format("Received '%s'", text));
-//	}
+	@JmsListener(destination = "TEST")
+	public void receiveMessage(String text) {
+		System.out.println(String.format("Received '%s'", text));
+	}
 
 }
