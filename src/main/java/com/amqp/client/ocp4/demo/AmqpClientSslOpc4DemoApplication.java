@@ -25,13 +25,13 @@ public class AmqpClientSslOpc4DemoApplication implements CommandLineRunner{
 		sendMessage("Hello World!");
 	}
 
-	public void sendMessage(String text) throws InterruptedException {
+	/* public void sendMessage(String text) throws InterruptedException {
 		System.out.println(String.format("Sending '%s'", text));
 		for(int i=0; i<100; i++) {
 			Thread.sleep(1000);
 		this.jmsTemplate.convertAndSend("TEST", text);
 		}
-	}
+	} */
 	
 	@Scheduled(fixedDelay = 1000)
 	public void performTask() {
