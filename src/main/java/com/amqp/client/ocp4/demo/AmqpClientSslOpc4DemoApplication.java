@@ -9,6 +9,7 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 
 @EnableJms
+@EnableScheduling
 @SpringBootApplication
 public class AmqpClientSslOpc4DemoApplication implements CommandLineRunner{
 
@@ -29,6 +30,17 @@ public class AmqpClientSslOpc4DemoApplication implements CommandLineRunner{
 		for(int i=0; i<100; i++) {
 			Thread.sleep(1000);
 		this.jmsTemplate.convertAndSend("TEST", text);
+		}
+	}
+	
+	@Scheduled(fixedDelay = 1000)
+	public void performTask() {
+		System.out.println("==========================Test" +jmsTemplate);
+		try {
+		    jmsTemplate.convertAndSend("hello");
+		    System.out.println("=================mesg send========");
+		}catch(JmsException e) {
+			System.out.println(e.getStackTrace());
 		}
 	}
 
