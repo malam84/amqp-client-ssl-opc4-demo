@@ -37,7 +37,7 @@ public class AmqpClientSslOpc4DemoApplication implements CommandLineRunner{
 	public void performTask() {
 		System.out.println("==========================Test" +jmsTemplate);
 		try {
-		    jmsTemplate.convertAndSend("hello");
+		    jmsTemplate.convertAndSend("TEST-HA-PROD", "hello");
 		    System.out.println("=================mesg send========");
 		}catch(JmsException e) {
 			System.out.println(e.getStackTrace());
